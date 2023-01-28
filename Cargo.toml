@@ -3,6 +3,8 @@ exclude = [
   "examples/example-plugin",
   "examples/example-rust-wasmer-runtime",
   "examples/example-rust-wasmer-wasi-runtime",
+  "examples/simple-plugin",
+  "examples/simple-rust-wasmer-runtime",
   "bindings/rust-plugin",
 ]
 members = [
@@ -11,5 +13,6 @@ members = [
   "macros",
   "xtask",
   "examples/example-protocol",
+  "examples/simple-protocol",
   "examples/redux-example",
 ]
