@@ -42,6 +42,17 @@ fn primitives() -> Result<()> {
     Ok(())
 }
 
+#[test]
+fn point_distance() -> Result<()> {
+    let rt = new_runtime()?;
+
+    // "origin" is at 4, 6
+    assert_eq!(rt.export_compute_distance(5, 6)?, 1);
+    assert_eq!(rt.export_compute_distance(2, 8)?, 4);
+
+    Ok(())
+}
+
 fn new_runtime() -> Result<Runtime> {
     let rt = Runtime::new(WASM_BYTES)?;
     rt.init()?;

@@ -48,6 +48,20 @@ impl Runtime {
         Store::new(&engine)
     }
 
+    pub fn export_compute_distance(&self, x: i32, y: i32) -> Result<u32, InvocationError> {
+        let result = self.export_compute_distance_raw(x, y);
+        result
+    }
+    pub fn export_compute_distance_raw(&self, x: i32, y: i32) -> Result<u32, InvocationError> {
+        let function = self.instance
+        .exports
+        .get_native_function::<(<i32 as WasmAbi>::AbiType, <i32 as WasmAbi>::AbiType), <u32 as WasmAbi>::AbiType>("__fp_gen_export_compute_distance")
+        .map_err(|_| InvocationError::FunctionNotExported("__fp_gen_export_compute_distance".to_owned()))?;
+        let result = function.call(x.to_abi(), y.to_abi())?;
+        let result = WasmAbi::from_abi(result);
+        Ok(result)
+    }
+
     pub fn export_primitive_bool(&self, arg: bool) -> Result<bool, InvocationError> {
         let result = self.export_primitive_bool_raw(arg);
         result
@@ -298,6 +312,14 @@ fn create_import_object(store: &Store, env: &RuntimeInstanceData) -> wasmer::Exp
         Function::new_native_with_env(store, env.clone(), resolve_async_value),
     );
     namespace.insert(
+        "__fp_gen_import_get_origin_x",
+        Function::new_native_with_env(store, env.clone(), _import_get_origin_x),
+    );
+    namespace.insert(
+        "__fp_gen_import_get_origin_y",
+        Function::new_native_with_env(store, env.clone(), _import_get_origin_y),
+    );
+    namespace.insert(
         "__fp_gen_import_primitive_bool",
         Function::new_native_with_env(store, env.clone(), _import_primitive_bool),
     );
@@ -358,6 +380,16 @@ fn create_import_object(store: &Store, env: &RuntimeInstanceData) -> wasmer::Exp
         Function::new_native_with_env(store, env.clone(), _log),
     );
     namespace
+}
+
+pub fn _import_get_origin_x(env: &RuntimeInstanceData) -> <i32 as WasmAbi>::AbiType {
+    let result = super::import_get_origin_x();
+    result.to_abi()
+}
+
+pub fn _import_get_origin_y(env: &RuntimeInstanceData) -> <i32 as WasmAbi>::AbiType {
+    let result = super::import_get_origin_y();
+    result.to_abi()
 }
 
 pub fn _import_primitive_bool(

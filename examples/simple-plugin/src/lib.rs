@@ -80,6 +80,11 @@ fn export_primitive_u64(arg: u64) -> u64 {
 }
 
 #[fp_export_impl(simple_bindings)]
+fn export_compute_distance(x: i32, y: i32) -> u32 {
+    ((x - import_get_origin_x()).abs() + (y - import_get_origin_y()).abs()) as u32
+}
+
+#[fp_export_impl(simple_bindings)]
 fn init() {
     init_panic_hook();
     tracing::info!("Simple plugin initialized");

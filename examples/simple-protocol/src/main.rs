@@ -27,6 +27,10 @@ fp_import! {
     fn import_primitive_u32(arg: u32) -> u32;
     fn import_primitive_u64(arg: u64) -> u64;
 
+    // Simple "useful" function:
+    fn import_get_origin_x() -> i32;
+    fn import_get_origin_y() -> i32;
+
     /// Logs a message to the (development) console.
     fn log(message: String);
 }
@@ -51,6 +55,9 @@ fp_export! {
     fn export_primitive_u16(arg: u16) -> u16;
     fn export_primitive_u32(arg: u32) -> u32;
     fn export_primitive_u64(arg: u64) -> u64;
+
+    // Simple "useful" function:
+    fn export_compute_distance(x: i32, y: i32) -> u32;
 
     /// Called on the plugin to give it a chance to initialize.
     fn init();

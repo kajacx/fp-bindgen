@@ -45,6 +45,13 @@ fn import_primitive_u64(arg: u64) -> u64 {
     todo!()
 }
 
+fn import_get_origin_x() -> i32 {
+    4
+}
+fn import_get_origin_y() -> i32 {
+    6
+}
+
 fn log(msg: String) {
     println!("Provider log: {}", msg);
 }
