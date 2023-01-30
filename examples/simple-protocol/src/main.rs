@@ -4,6 +4,9 @@ use fp_bindgen::{prelude::*, types::CargoDependency};
 use once_cell::sync::Lazy;
 use std::collections::{BTreeMap, BTreeSet};
 
+mod types;
+use types::*;
+
 fp_import! {
     // No arguments, no return type:
     fn import_void_function();
@@ -30,6 +33,31 @@ fp_import! {
     // Simple "useful" function:
     fn import_get_origin_x() -> i32;
     fn import_get_origin_y() -> i32;
+
+    // Passing arrays:
+    fn import_array_u8(arg: [u8; 3]) -> [u8; 3];
+    fn import_array_u16(arg: [u16; 3]) -> [u16; 3];
+    fn import_array_u32(arg: [u32; 3]) -> [u32; 3];
+    fn import_array_i8(arg: [i8; 3]) -> [i8; 3];
+    fn import_array_i16(arg: [i16; 3]) -> [i16; 3];
+    fn import_array_i32(arg: [i32; 3]) -> [i32; 3];
+    fn import_array_f32(arg: [f32; 3]) -> [f32; 3];
+    fn import_array_f64(arg: [f64; 3]) -> [f64; 3];
+
+    // Passing strings:
+    fn import_string(arg: String) -> String;
+
+    // Multiple arguments:
+    fn import_multiple_primitives(arg1: i8, arg2: String) -> i64;
+
+    // Integration with the `time` crate:
+    fn import_timestamp(arg: MyDateTime) -> MyDateTime;
+
+    // Passing custom types with flattened properties.
+    //
+    // See `types/flattening.rs` for more info.
+    fn import_fp_flatten(arg: FpFlatten) -> FpFlatten;
+    fn import_serde_flatten(arg: SerdeFlatten) -> SerdeFlatten;
 
     /// Logs a message to the (development) console.
     fn log(message: String);
@@ -58,6 +86,31 @@ fp_export! {
 
     // Simple "useful" function:
     fn export_compute_distance(x: i32, y: i32) -> u32;
+
+    // Passing arrays:
+    fn export_array_u8(arg: [u8; 3]) -> [u8; 3];
+    fn export_array_u16(arg: [u16; 3]) -> [u16; 3];
+    fn export_array_u32(arg: [u32; 3]) -> [u32; 3];
+    fn export_array_i8(arg: [i8; 3]) -> [i8; 3];
+    fn export_array_i16(arg: [i16; 3]) -> [i16; 3];
+    fn export_array_i32(arg: [i32; 3]) -> [i32; 3];
+    fn export_array_f32(arg: [f32; 3]) -> [f32; 3];
+    fn export_array_f64(arg: [f64; 3]) -> [f64; 3];
+
+    // Passing strings:
+    fn export_string(arg: String) -> String;
+
+    // Multiple arguments:
+    fn export_multiple_primitives(arg1: i8, arg2: String) -> i64;
+
+    // Integration with the `time` crate:
+    fn export_timestamp(arg: MyDateTime) -> MyDateTime;
+
+    // Passing custom types with flattened properties.
+    //
+    // See `types/flattening.rs` for more info.
+    fn export_fp_flatten(arg: FpFlatten) -> FpFlatten;
+    fn export_serde_flatten(arg: SerdeFlatten) -> SerdeFlatten;
 
     /// Called on the plugin to give it a chance to initialize.
     fn init();

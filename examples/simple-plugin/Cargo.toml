@@ -13,3 +13,4 @@ simple-bindings = {path = "../simple-protocol/bindings/rust-plugin"}
 once_cell = {version = "1"}
 serde_bytes = {version = "0.11"}
 tracing = "0.1.37"
+time = {version = "0.3", features = ["macros", "serde-human-readable"]}

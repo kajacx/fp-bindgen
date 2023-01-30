@@ -48,6 +48,166 @@ impl Runtime {
         Store::new(&engine)
     }
 
+    pub fn export_array_f32(&self, arg: [f32; 3]) -> Result<[f32; 3], InvocationError> {
+        let arg = serialize_to_vec(&arg);
+        let result = self.export_array_f32_raw(arg);
+        let result = result.map(|ref data| deserialize_from_slice(data));
+        result
+    }
+    pub fn export_array_f32_raw(&self, arg: Vec<u8>) -> Result<Vec<u8>, InvocationError> {
+        let arg = export_to_guest_raw(&self.env, arg);
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<FatPtr, FatPtr>("__fp_gen_export_array_f32")
+            .map_err(|_| {
+                InvocationError::FunctionNotExported("__fp_gen_export_array_f32".to_owned())
+            })?;
+        let result = function.call(arg.to_abi())?;
+        let result = import_from_guest_raw(&self.env, result);
+        Ok(result)
+    }
+
+    pub fn export_array_f64(&self, arg: [f64; 3]) -> Result<[f64; 3], InvocationError> {
+        let arg = serialize_to_vec(&arg);
+        let result = self.export_array_f64_raw(arg);
+        let result = result.map(|ref data| deserialize_from_slice(data));
+        result
+    }
+    pub fn export_array_f64_raw(&self, arg: Vec<u8>) -> Result<Vec<u8>, InvocationError> {
+        let arg = export_to_guest_raw(&self.env, arg);
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<FatPtr, FatPtr>("__fp_gen_export_array_f64")
+            .map_err(|_| {
+                InvocationError::FunctionNotExported("__fp_gen_export_array_f64".to_owned())
+            })?;
+        let result = function.call(arg.to_abi())?;
+        let result = import_from_guest_raw(&self.env, result);
+        Ok(result)
+    }
+
+    pub fn export_array_i16(&self, arg: [i16; 3]) -> Result<[i16; 3], InvocationError> {
+        let arg = serialize_to_vec(&arg);
+        let result = self.export_array_i16_raw(arg);
+        let result = result.map(|ref data| deserialize_from_slice(data));
+        result
+    }
+    pub fn export_array_i16_raw(&self, arg: Vec<u8>) -> Result<Vec<u8>, InvocationError> {
+        let arg = export_to_guest_raw(&self.env, arg);
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<FatPtr, FatPtr>("__fp_gen_export_array_i16")
+            .map_err(|_| {
+                InvocationError::FunctionNotExported("__fp_gen_export_array_i16".to_owned())
+            })?;
+        let result = function.call(arg.to_abi())?;
+        let result = import_from_guest_raw(&self.env, result);
+        Ok(result)
+    }
+
+    pub fn export_array_i32(&self, arg: [i32; 3]) -> Result<[i32; 3], InvocationError> {
+        let arg = serialize_to_vec(&arg);
+        let result = self.export_array_i32_raw(arg);
+        let result = result.map(|ref data| deserialize_from_slice(data));
+        result
+    }
+    pub fn export_array_i32_raw(&self, arg: Vec<u8>) -> Result<Vec<u8>, InvocationError> {
+        let arg = export_to_guest_raw(&self.env, arg);
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<FatPtr, FatPtr>("__fp_gen_export_array_i32")
+            .map_err(|_| {
+                InvocationError::FunctionNotExported("__fp_gen_export_array_i32".to_owned())
+            })?;
+        let result = function.call(arg.to_abi())?;
+        let result = import_from_guest_raw(&self.env, result);
+        Ok(result)
+    }
+
+    pub fn export_array_i8(&self, arg: [i8; 3]) -> Result<[i8; 3], InvocationError> {
+        let arg = serialize_to_vec(&arg);
+        let result = self.export_array_i8_raw(arg);
+        let result = result.map(|ref data| deserialize_from_slice(data));
+        result
+    }
+    pub fn export_array_i8_raw(&self, arg: Vec<u8>) -> Result<Vec<u8>, InvocationError> {
+        let arg = export_to_guest_raw(&self.env, arg);
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<FatPtr, FatPtr>("__fp_gen_export_array_i8")
+            .map_err(|_| {
+                InvocationError::FunctionNotExported("__fp_gen_export_array_i8".to_owned())
+            })?;
+        let result = function.call(arg.to_abi())?;
+        let result = import_from_guest_raw(&self.env, result);
+        Ok(result)
+    }
+
+    pub fn export_array_u16(&self, arg: [u16; 3]) -> Result<[u16; 3], InvocationError> {
+        let arg = serialize_to_vec(&arg);
+        let result = self.export_array_u16_raw(arg);
+        let result = result.map(|ref data| deserialize_from_slice(data));
+        result
+    }
+    pub fn export_array_u16_raw(&self, arg: Vec<u8>) -> Result<Vec<u8>, InvocationError> {
+        let arg = export_to_guest_raw(&self.env, arg);
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<FatPtr, FatPtr>("__fp_gen_export_array_u16")
+            .map_err(|_| {
+                InvocationError::FunctionNotExported("__fp_gen_export_array_u16".to_owned())
+            })?;
+        let result = function.call(arg.to_abi())?;
+        let result = import_from_guest_raw(&self.env, result);
+        Ok(result)
+    }
+
+    pub fn export_array_u32(&self, arg: [u32; 3]) -> Result<[u32; 3], InvocationError> {
+        let arg = serialize_to_vec(&arg);
+        let result = self.export_array_u32_raw(arg);
+        let result = result.map(|ref data| deserialize_from_slice(data));
+        result
+    }
+    pub fn export_array_u32_raw(&self, arg: Vec<u8>) -> Result<Vec<u8>, InvocationError> {
+        let arg = export_to_guest_raw(&self.env, arg);
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<FatPtr, FatPtr>("__fp_gen_export_array_u32")
+            .map_err(|_| {
+                InvocationError::FunctionNotExported("__fp_gen_export_array_u32".to_owned())
+            })?;
+        let result = function.call(arg.to_abi())?;
+        let result = import_from_guest_raw(&self.env, result);
+        Ok(result)
+    }
+
+    pub fn export_array_u8(&self, arg: [u8; 3]) -> Result<[u8; 3], InvocationError> {
+        let arg = serialize_to_vec(&arg);
+        let result = self.export_array_u8_raw(arg);
+        let result = result.map(|ref data| deserialize_from_slice(data));
+        result
+    }
+    pub fn export_array_u8_raw(&self, arg: Vec<u8>) -> Result<Vec<u8>, InvocationError> {
+        let arg = export_to_guest_raw(&self.env, arg);
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<FatPtr, FatPtr>("__fp_gen_export_array_u8")
+            .map_err(|_| {
+                InvocationError::FunctionNotExported("__fp_gen_export_array_u8".to_owned())
+            })?;
+        let result = function.call(arg.to_abi())?;
+        let result = import_from_guest_raw(&self.env, result);
+        Ok(result)
+    }
+
     pub fn export_compute_distance(&self, x: i32, y: i32) -> Result<u32, InvocationError> {
         let result = self.export_compute_distance_raw(x, y);
         result
@@ -58,6 +218,57 @@ impl Runtime {
         .get_native_function::<(<i32 as WasmAbi>::AbiType, <i32 as WasmAbi>::AbiType), <u32 as WasmAbi>::AbiType>("__fp_gen_export_compute_distance")
         .map_err(|_| InvocationError::FunctionNotExported("__fp_gen_export_compute_distance".to_owned()))?;
         let result = function.call(x.to_abi(), y.to_abi())?;
+        let result = WasmAbi::from_abi(result);
+        Ok(result)
+    }
+
+    pub fn export_fp_flatten(&self, arg: FpFlatten) -> Result<FpFlatten, InvocationError> {
+        let arg = serialize_to_vec(&arg);
+        let result = self.export_fp_flatten_raw(arg);
+        let result = result.map(|ref data| deserialize_from_slice(data));
+        result
+    }
+    pub fn export_fp_flatten_raw(&self, arg: Vec<u8>) -> Result<Vec<u8>, InvocationError> {
+        let arg = export_to_guest_raw(&self.env, arg);
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<FatPtr, FatPtr>("__fp_gen_export_fp_flatten")
+            .map_err(|_| {
+                InvocationError::FunctionNotExported("__fp_gen_export_fp_flatten".to_owned())
+            })?;
+        let result = function.call(arg.to_abi())?;
+        let result = import_from_guest_raw(&self.env, result);
+        Ok(result)
+    }
+
+    pub fn export_multiple_primitives(
+        &self,
+        arg1: i8,
+        arg2: String,
+    ) -> Result<i64, InvocationError> {
+        let arg2 = serialize_to_vec(&arg2);
+        let result = self.export_multiple_primitives_raw(arg1, arg2);
+        result
+    }
+    pub fn export_multiple_primitives_raw(
+        &self,
+        arg1: i8,
+        arg2: Vec<u8>,
+    ) -> Result<i64, InvocationError> {
+        let arg2 = export_to_guest_raw(&self.env, arg2);
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<(<i8 as WasmAbi>::AbiType, FatPtr), <i64 as WasmAbi>::AbiType>(
+                "__fp_gen_export_multiple_primitives",
+            )
+            .map_err(|_| {
+                InvocationError::FunctionNotExported(
+                    "__fp_gen_export_multiple_primitives".to_owned(),
+                )
+            })?;
+        let result = function.call(arg1.to_abi(), arg2.to_abi())?;
         let result = WasmAbi::from_abi(result);
         Ok(result)
     }
@@ -271,6 +482,66 @@ impl Runtime {
         Ok(result)
     }
 
+    pub fn export_serde_flatten(&self, arg: SerdeFlatten) -> Result<SerdeFlatten, InvocationError> {
+        let arg = serialize_to_vec(&arg);
+        let result = self.export_serde_flatten_raw(arg);
+        let result = result.map(|ref data| deserialize_from_slice(data));
+        result
+    }
+    pub fn export_serde_flatten_raw(&self, arg: Vec<u8>) -> Result<Vec<u8>, InvocationError> {
+        let arg = export_to_guest_raw(&self.env, arg);
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<FatPtr, FatPtr>("__fp_gen_export_serde_flatten")
+            .map_err(|_| {
+                InvocationError::FunctionNotExported("__fp_gen_export_serde_flatten".to_owned())
+            })?;
+        let result = function.call(arg.to_abi())?;
+        let result = import_from_guest_raw(&self.env, result);
+        Ok(result)
+    }
+
+    pub fn export_string(&self, arg: String) -> Result<String, InvocationError> {
+        let arg = serialize_to_vec(&arg);
+        let result = self.export_string_raw(arg);
+        let result = result.map(|ref data| deserialize_from_slice(data));
+        result
+    }
+    pub fn export_string_raw(&self, arg: Vec<u8>) -> Result<Vec<u8>, InvocationError> {
+        let arg = export_to_guest_raw(&self.env, arg);
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<FatPtr, FatPtr>("__fp_gen_export_string")
+            .map_err(|_| {
+                InvocationError::FunctionNotExported("__fp_gen_export_string".to_owned())
+            })?;
+        let result = function.call(arg.to_abi())?;
+        let result = import_from_guest_raw(&self.env, result);
+        Ok(result)
+    }
+
+    pub fn export_timestamp(&self, arg: MyDateTime) -> Result<MyDateTime, InvocationError> {
+        let arg = serialize_to_vec(&arg);
+        let result = self.export_timestamp_raw(arg);
+        let result = result.map(|ref data| deserialize_from_slice(data));
+        result
+    }
+    pub fn export_timestamp_raw(&self, arg: Vec<u8>) -> Result<Vec<u8>, InvocationError> {
+        let arg = export_to_guest_raw(&self.env, arg);
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<FatPtr, FatPtr>("__fp_gen_export_timestamp")
+            .map_err(|_| {
+                InvocationError::FunctionNotExported("__fp_gen_export_timestamp".to_owned())
+            })?;
+        let result = function.call(arg.to_abi())?;
+        let result = import_from_guest_raw(&self.env, result);
+        Ok(result)
+    }
+
     pub fn export_void_function(&self) -> Result<(), InvocationError> {
         let result = self.export_void_function_raw();
         result
@@ -312,12 +583,52 @@ fn create_import_object(store: &Store, env: &RuntimeInstanceData) -> wasmer::Exp
         Function::new_native_with_env(store, env.clone(), resolve_async_value),
     );
     namespace.insert(
+        "__fp_gen_import_array_f32",
+        Function::new_native_with_env(store, env.clone(), _import_array_f32),
+    );
+    namespace.insert(
+        "__fp_gen_import_array_f64",
+        Function::new_native_with_env(store, env.clone(), _import_array_f64),
+    );
+    namespace.insert(
+        "__fp_gen_import_array_i16",
+        Function::new_native_with_env(store, env.clone(), _import_array_i16),
+    );
+    namespace.insert(
+        "__fp_gen_import_array_i32",
+        Function::new_native_with_env(store, env.clone(), _import_array_i32),
+    );
+    namespace.insert(
+        "__fp_gen_import_array_i8",
+        Function::new_native_with_env(store, env.clone(), _import_array_i8),
+    );
+    namespace.insert(
+        "__fp_gen_import_array_u16",
+        Function::new_native_with_env(store, env.clone(), _import_array_u16),
+    );
+    namespace.insert(
+        "__fp_gen_import_array_u32",
+        Function::new_native_with_env(store, env.clone(), _import_array_u32),
+    );
+    namespace.insert(
+        "__fp_gen_import_array_u8",
+        Function::new_native_with_env(store, env.clone(), _import_array_u8),
+    );
+    namespace.insert(
+        "__fp_gen_import_fp_flatten",
+        Function::new_native_with_env(store, env.clone(), _import_fp_flatten),
+    );
+    namespace.insert(
         "__fp_gen_import_get_origin_x",
         Function::new_native_with_env(store, env.clone(), _import_get_origin_x),
     );
     namespace.insert(
         "__fp_gen_import_get_origin_y",
         Function::new_native_with_env(store, env.clone(), _import_get_origin_y),
+    );
+    namespace.insert(
+        "__fp_gen_import_multiple_primitives",
+        Function::new_native_with_env(store, env.clone(), _import_multiple_primitives),
     );
     namespace.insert(
         "__fp_gen_import_primitive_bool",
@@ -364,6 +675,18 @@ fn create_import_object(store: &Store, env: &RuntimeInstanceData) -> wasmer::Exp
         Function::new_native_with_env(store, env.clone(), _import_primitive_u8),
     );
     namespace.insert(
+        "__fp_gen_import_serde_flatten",
+        Function::new_native_with_env(store, env.clone(), _import_serde_flatten),
+    );
+    namespace.insert(
+        "__fp_gen_import_string",
+        Function::new_native_with_env(store, env.clone(), _import_string),
+    );
+    namespace.insert(
+        "__fp_gen_import_timestamp",
+        Function::new_native_with_env(store, env.clone(), _import_timestamp),
+    );
+    namespace.insert(
         "__fp_gen_import_void_function",
         Function::new_native_with_env(store, env.clone(), _import_void_function),
     );
@@ -382,6 +705,60 @@ fn create_import_object(store: &Store, env: &RuntimeInstanceData) -> wasmer::Exp
     namespace
 }
 
+pub fn _import_array_f32(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
+    let arg = import_from_guest::<[f32; 3]>(env, arg);
+    let result = super::import_array_f32(arg);
+    export_to_guest(env, &result)
+}
+
+pub fn _import_array_f64(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
+    let arg = import_from_guest::<[f64; 3]>(env, arg);
+    let result = super::import_array_f64(arg);
+    export_to_guest(env, &result)
+}
+
+pub fn _import_array_i16(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
+    let arg = import_from_guest::<[i16; 3]>(env, arg);
+    let result = super::import_array_i16(arg);
+    export_to_guest(env, &result)
+}
+
+pub fn _import_array_i32(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
+    let arg = import_from_guest::<[i32; 3]>(env, arg);
+    let result = super::import_array_i32(arg);
+    export_to_guest(env, &result)
+}
+
+pub fn _import_array_i8(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
+    let arg = import_from_guest::<[i8; 3]>(env, arg);
+    let result = super::import_array_i8(arg);
+    export_to_guest(env, &result)
+}
+
+pub fn _import_array_u16(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
+    let arg = import_from_guest::<[u16; 3]>(env, arg);
+    let result = super::import_array_u16(arg);
+    export_to_guest(env, &result)
+}
+
+pub fn _import_array_u32(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
+    let arg = import_from_guest::<[u32; 3]>(env, arg);
+    let result = super::import_array_u32(arg);
+    export_to_guest(env, &result)
+}
+
+pub fn _import_array_u8(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
+    let arg = import_from_guest::<[u8; 3]>(env, arg);
+    let result = super::import_array_u8(arg);
+    export_to_guest(env, &result)
+}
+
+pub fn _import_fp_flatten(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
+    let arg = import_from_guest::<FpFlatten>(env, arg);
+    let result = super::import_fp_flatten(arg);
+    export_to_guest(env, &result)
+}
+
 pub fn _import_get_origin_x(env: &RuntimeInstanceData) -> <i32 as WasmAbi>::AbiType {
     let result = super::import_get_origin_x();
     result.to_abi()
@@ -389,6 +766,17 @@ pub fn _import_get_origin_x(env: &RuntimeInstanceData) -> <i32 as WasmAbi>::AbiT
 
 pub fn _import_get_origin_y(env: &RuntimeInstanceData) -> <i32 as WasmAbi>::AbiType {
     let result = super::import_get_origin_y();
+    result.to_abi()
+}
+
+pub fn _import_multiple_primitives(
+    env: &RuntimeInstanceData,
+    arg1: <i8 as WasmAbi>::AbiType,
+    arg2: FatPtr,
+) -> <i64 as WasmAbi>::AbiType {
+    let arg1 = WasmAbi::from_abi(arg1);
+    let arg2 = import_from_guest::<String>(env, arg2);
+    let result = super::import_multiple_primitives(arg1, arg2);
     result.to_abi()
 }
 
@@ -489,6 +877,24 @@ pub fn _import_primitive_u8(
     let arg = WasmAbi::from_abi(arg);
     let result = super::import_primitive_u8(arg);
     result.to_abi()
+}
+
+pub fn _import_serde_flatten(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
+    let arg = import_from_guest::<SerdeFlatten>(env, arg);
+    let result = super::import_serde_flatten(arg);
+    export_to_guest(env, &result)
+}
+
+pub fn _import_string(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
+    let arg = import_from_guest::<String>(env, arg);
+    let result = super::import_string(arg);
+    export_to_guest(env, &result)
+}
+
+pub fn _import_timestamp(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
+    let arg = import_from_guest::<MyDateTime>(env, arg);
+    let result = super::import_timestamp(arg);
+    export_to_guest(env, &result)
 }
 
 pub fn _import_void_function(env: &RuntimeInstanceData) {

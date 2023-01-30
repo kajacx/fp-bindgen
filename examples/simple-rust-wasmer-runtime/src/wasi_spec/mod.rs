@@ -52,6 +52,50 @@ fn import_get_origin_y() -> i32 {
     6
 }
 
+fn import_array_u8(arg: [u8; 3]) -> [u8; 3] {
+    todo!()
+}
+fn import_array_u16(arg: [u16; 3]) -> [u16; 3] {
+    todo!()
+}
+fn import_array_u32(arg: [u32; 3]) -> [u32; 3] {
+    todo!()
+}
+fn import_array_i8(arg: [i8; 3]) -> [i8; 3] {
+    todo!()
+}
+fn import_array_i16(arg: [i16; 3]) -> [i16; 3] {
+    todo!()
+}
+fn import_array_i32(arg: [i32; 3]) -> [i32; 3] {
+    todo!()
+}
+fn import_array_f32(arg: [f32; 3]) -> [f32; 3] {
+    todo!()
+}
+fn import_array_f64(arg: [f64; 3]) -> [f64; 3] {
+    todo!()
+}
+
+fn import_string(arg: String) -> String {
+    todo!()
+}
+
+fn import_multiple_primitives(arg1: i8, arg2: String) -> i64 {
+    todo!()
+}
+
+fn import_timestamp(arg: MyDateTime) -> MyDateTime {
+    todo!()
+}
+
+fn import_fp_flatten(arg: FpFlatten) -> FpFlatten {
+    todo!()
+}
+fn import_serde_flatten(arg: SerdeFlatten) -> SerdeFlatten {
+    todo!()
+}
+
 fn log(msg: String) {
     println!("Provider log: {}", msg);
 }
