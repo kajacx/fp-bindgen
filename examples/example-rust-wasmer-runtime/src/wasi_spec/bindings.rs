@@ -208,37 +208,6 @@ impl Runtime {
         Ok(result)
     }
 
-    pub async fn export_async_struct(
-        &self,
-        arg1: FpPropertyRenaming,
-        arg2: u64,
-    ) -> Result<FpPropertyRenaming, InvocationError> {
-        let arg1 = serialize_to_vec(&arg1);
-        let result = self.export_async_struct_raw(arg1, arg2);
-        let result = result.await;
-        let result = result.map(|ref data| deserialize_from_slice(data));
-        result
-    }
-    pub async fn export_async_struct_raw(
-        &self,
-        arg1: Vec<u8>,
-        arg2: u64,
-    ) -> Result<Vec<u8>, InvocationError> {
-        let arg1 = export_to_guest_raw(&self.env, arg1);
-        let function = self
-            .instance
-            .exports
-            .get_native_function::<(FatPtr, <u64 as WasmAbi>::AbiType), FatPtr>(
-                "__fp_gen_export_async_struct",
-            )
-            .map_err(|_| {
-                InvocationError::FunctionNotExported("__fp_gen_export_async_struct".to_owned())
-            })?;
-        let result = function.call(arg1.to_abi(), arg2.to_abi())?;
-        let result = ModuleRawFuture::new(self.env.clone(), result).await;
-        Ok(result)
-    }
-
     pub fn export_fp_adjacently_tagged(
         &self,
         arg: FpAdjacentlyTagged,
@@ -909,29 +878,6 @@ impl Runtime {
         Ok(result)
     }
 
-    /// Example how plugin could expose async data-fetching capabilities.
-    pub async fn fetch_data(
-        &self,
-        r#type: String,
-    ) -> Result<Result<String, String>, InvocationError> {
-        let r#type = serialize_to_vec(&r#type);
-        let result = self.fetch_data_raw(r#type);
-        let result = result.await;
-        let result = result.map(|ref data| deserialize_from_slice(data));
-        result
-    }
-    pub async fn fetch_data_raw(&self, r#type: Vec<u8>) -> Result<Vec<u8>, InvocationError> {
-        let r#type = export_to_guest_raw(&self.env, r#type);
-        let function = self
-            .instance
-            .exports
-            .get_native_function::<FatPtr, FatPtr>("__fp_gen_fetch_data")
-            .map_err(|_| InvocationError::FunctionNotExported("__fp_gen_fetch_data".to_owned()))?;
-        let result = function.call(r#type.to_abi())?;
-        let result = ModuleRawFuture::new(self.env.clone(), result).await;
-        Ok(result)
-    }
-
     /// Called on the plugin to give it a chance to initialize.
     pub fn init(&self) -> Result<(), InvocationError> {
         let result = self.init_raw();
@@ -1147,10 +1093,6 @@ fn create_import_object(store: &Store, env: &RuntimeInstanceData) -> wasmer::Exp
     namespace.insert(
         "__fp_gen_log",
         Function::new_native_with_env(store, env.clone(), _log),
-    );
-    namespace.insert(
-        "__fp_gen_make_http_request",
-        Function::new_native_with_env(store, env.clone(), _make_http_request),
     );
     namespace
 }
@@ -1440,18 +1382,4 @@ pub fn _import_void_function_empty_return(env: &RuntimeInstanceData) {
 pub fn _log(env: &RuntimeInstanceData, message: FatPtr) {
     let message = import_from_guest::<String>(env, message);
     let result = super::log(message);
-}
-
-pub fn _make_http_request(env: &RuntimeInstanceData, request: FatPtr) -> FatPtr {
-    let request = import_from_guest::<Request>(env, request);
-    let result = super::make_http_request(request);
-    let env = env.clone();
-    let async_ptr = create_future_value(&env);
-    let handle = tokio::runtime::Handle::current();
-    handle.spawn(async move {
-        let result = result.await;
-        let result_ptr = export_to_guest(&env, &result);
-        env.guest_resolve_async_value(async_ptr, result_ptr);
-    });
-    async_ptr
 }

@@ -7,9 +7,6 @@ pub use flattening::*;
 mod generics;
 pub use generics::*;
 
-mod http;
-pub use self::http::*;
-
 mod inline_docs;
 pub use inline_docs::*;
 

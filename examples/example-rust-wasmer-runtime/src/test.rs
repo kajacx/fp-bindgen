@@ -1,21 +1,21 @@
-#[cfg(not(feature="wasi"))]
-use crate::spec::types::*;
-#[cfg(feature="wasi")]
-use crate::wasi_spec::types::*;
-#[cfg(not(feature="wasi"))]
+#[cfg(not(feature = "wasi"))]
 use crate::spec::bindings::Runtime;
-#[cfg(feature="wasi")]
+#[cfg(not(feature = "wasi"))]
+use crate::spec::types::*;
+#[cfg(feature = "wasi")]
 use crate::wasi_spec::bindings::Runtime;
+#[cfg(feature = "wasi")]
+use crate::wasi_spec::types::*;
 use anyhow::Result;
 use bytes::Bytes;
 use serde_bytes::ByteBuf;
 use std::collections::BTreeMap;
 use time::{macros::datetime, OffsetDateTime};
 
-#[cfg(not(feature="wasi"))]
+#[cfg(not(feature = "wasi"))]
 const WASM_BYTES: &'static [u8] =
     include_bytes!("../../example-plugin/target/wasm32-unknown-unknown/debug/example_plugin.wasm");
-#[cfg(feature="wasi")]
+#[cfg(feature = "wasi")]
 const WASM_BYTES: &'static [u8] =
     include_bytes!("../../example-plugin/target/wasm32-wasi/debug/example_plugin.wasm");
 
@@ -232,45 +232,15 @@ fn tagged_enums() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
-async fn async_struct() -> Result<()> {
-    let rt = new_runtime()?;
-
-    assert_eq!(
-        rt.export_async_struct(
-            FpPropertyRenaming {
-                foo_bar: "foo_bar".to_owned(),
-                qux_baz: 64.0,
-                raw_struct: -32
-            },
-            64
-        )
-        .await?,
-        FpPropertyRenaming {
-            foo_bar: "fooBar".to_owned(),
-            qux_baz: -64.0,
-            raw_struct: 32,
-        }
-    );
-    Ok(())
-}
-
-#[tokio::test]
-async fn fetch_async_data() -> Result<()> {
-    let rt = new_runtime()?;
-
-    let response = rt.fetch_data("sign-up".to_string()).await?;
-
-    assert_eq!(response, Ok(r#"status: "confirmed"#.to_string()));
-    Ok(())
-}
-
 #[test]
 fn bytes() -> Result<()> {
     let rt = new_runtime()?;
 
     assert_eq!(rt.export_get_bytes()?, Ok(Bytes::from("hello, world")));
-    assert_eq!(rt.export_get_serde_bytes()?, Ok(ByteBuf::from("hello, world")));
+    assert_eq!(
+        rt.export_get_serde_bytes()?,
+        Ok(ByteBuf::from("hello, world"))
+    );
 
     Ok(())
 }

@@ -1,8 +1,7 @@
 use bytes::{Bytes, BytesMut};
-use ::http::{Method, Uri};
 use example_bindings::*;
 use serde_bytes::ByteBuf;
-use std::collections::{BTreeMap};
+use std::collections::BTreeMap;
 use std::panic;
 use time::{macros::datetime, OffsetDateTime};
 
@@ -319,52 +318,6 @@ fn export_serde_untagged(arg: SerdeUntagged) -> SerdeUntagged {
 }
 
 #[fp_export_impl(example_bindings)]
-async fn export_async_struct(arg1: FpPropertyRenaming, arg2: u64) -> FpPropertyRenaming {
-    assert_eq!(
-        arg1,
-        FpPropertyRenaming {
-            foo_bar: "foo_bar".to_owned(),
-            qux_baz: 64.0,
-            raw_struct: -32
-        }
-    );
-    assert_eq!(arg2, 64);
-    FpPropertyRenaming {
-        foo_bar: "fooBar".to_owned(),
-        qux_baz: -64.0,
-        raw_struct: 32,
-    }
-}
-
-#[fp_export_impl(example_bindings)]
-async fn fetch_data(r#type: String) -> Result<String, String> {
-
-    let mut headers = ::http::HeaderMap::new();
-    headers.insert(
-        ::http::header::CONTENT_TYPE,
-        ::http::header::HeaderValue::from_static("application/json"),
-    );
-
-    let result = make_http_request(Request {
-        url: Uri::from_static("https://fiberplane.dev"),
-        method: Method::POST,
-        headers,
-        body: Some(ByteBuf::from(format!(
-            r#"{{"country":"🇳🇱","type":"{}"}}"#,
-            r#type
-        ))),
-    })
-    .await;
-
-    match result {
-        Ok(response) => {
-            String::from_utf8(response.body.to_vec()).map_err(|_| "Invalid utf8".to_owned())
-        }
-        Err(err) => Err(format!("Error: {:?}", err)),
-    }
-}
-
-#[fp_export_impl(example_bindings)]
 fn export_get_bytes() -> Result<Bytes, String> {
     import_get_bytes().map(|bytes| {
         let mut new_bytes = BytesMut::with_capacity(bytes.len() + 7);
@@ -388,10 +341,7 @@ fn export_get_serde_bytes() -> Result<ByteBuf, String> {
 fn export_struct_with_options(arg: StructWithOptions) -> StructWithOptions {
     let value = import_struct_with_options(arg.clone());
 
-    assert_eq!(
-        arg,
-        value,
-    );
+    assert_eq!(arg, value,);
 
     value
 }
