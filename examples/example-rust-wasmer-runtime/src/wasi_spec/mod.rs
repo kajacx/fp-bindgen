@@ -139,9 +139,9 @@ fn import_struct_with_options(arg: StructWithOptions) {
     todo!()
 }
 
-// Doesn't return u64????
-async fn import_u64_async() -> String {
-    "Why is the return type completely broken?".into()
+// Doesn't have to return u64????
+async fn import_u64_async() -> u64 {
+    64
 }
 async fn import_u32_async() -> u32 {
     32

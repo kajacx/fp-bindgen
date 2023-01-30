@@ -249,7 +249,7 @@ fn bytes() -> Result<()> {
 async fn simple_async() -> Result<()> {
     let rt = new_runtime()?;
     
-    assert_eq!("Importing string and exporting", rt.export_string_async().await?);
+    assert_eq!("Importing string and exporting64", rt.export_string_async().await?);
 
     Ok(())
 }
