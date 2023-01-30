@@ -347,6 +347,13 @@ fn export_struct_with_options(arg: StructWithOptions) -> StructWithOptions {
 }
 
 #[fp_export_impl(example_bindings)]
+async fn export_string_async() -> String {
+    "Exporting string".into()
+}
+
+
+
+#[fp_export_impl(example_bindings)]
 fn init() {
     init_panic_hook();
     tracing_subscriber::init();
