@@ -117,6 +117,7 @@ fp_import! {
 
     async fn import_u64_async() -> u64;
     //async fn import_u32_async() -> u32; Doesn't work?
+    async fn import_string_async() -> String;
 
     /// Logs a message to the (development) console.
     fn log(message: String);
@@ -197,6 +198,10 @@ fp_export! {
     fn export_serde_internally_tagged(arg: SerdeInternallyTagged) -> SerdeInternallyTagged;
     fn export_serde_adjacently_tagged(arg: SerdeAdjacentlyTagged) -> SerdeAdjacentlyTagged;
     fn export_serde_untagged(arg: SerdeUntagged) -> SerdeUntagged;
+
+    //async fn export_u64_async() -> u64; // Another error?
+    //async fn export_u32_async() -> u32; // Similar problem as with import
+    async fn export_string_async() -> String; // Similar problem as with import
 
     /// Called on the plugin to give it a chance to initialize.
     fn init();

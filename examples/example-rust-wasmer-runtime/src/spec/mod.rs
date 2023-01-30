@@ -146,6 +146,9 @@ async fn import_u64_async() -> String {
 async fn import_u32_async() -> u32 {
     32
 }
+async fn import_string_async() -> String {
+    "Importing string".into()
+}
 
 fn log(msg: String) {
     println!("Provider log: {}", msg);

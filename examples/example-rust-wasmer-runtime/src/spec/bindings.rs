@@ -813,6 +813,25 @@ impl Runtime {
         Ok(result)
     }
 
+    pub async fn export_string_async(&self) -> Result<String, InvocationError> {
+        let result = self.export_string_async_raw();
+        let result = result.await;
+        let result = result.map(|ref data| deserialize_from_slice(data));
+        result
+    }
+    pub async fn export_string_async_raw(&self) -> Result<Vec<u8>, InvocationError> {
+        let function = self
+            .instance
+            .exports
+            .get_native_function::<(), FatPtr>("__fp_gen_export_string_async")
+            .map_err(|_| {
+                InvocationError::FunctionNotExported("__fp_gen_export_string_async".to_owned())
+            })?;
+        let result = function.call()?;
+        let result = ModuleRawFuture::new(self.env.clone(), result).await;
+        Ok(result)
+    }
+
     pub fn export_struct_with_options(
         &self,
         arg: StructWithOptions,
@@ -954,6 +973,7 @@ fn create_import_object(store: &Store, env: &RuntimeInstanceData) -> ImportObjec
             "__fp_gen_import_serde_struct" => Function::new_native_with_env(store, env.clone(), _import_serde_struct),
             "__fp_gen_import_serde_untagged" => Function::new_native_with_env(store, env.clone(), _import_serde_untagged),
             "__fp_gen_import_string" => Function::new_native_with_env(store, env.clone(), _import_string),
+            "__fp_gen_import_string_async" => Function::new_native_with_env(store, env.clone(), _import_string_async),
             "__fp_gen_import_struct_with_options" => Function::new_native_with_env(store, env.clone(), _import_struct_with_options),
             "__fp_gen_import_timestamp" => Function::new_native_with_env(store, env.clone(), _import_timestamp),
             "__fp_gen_import_u64_async" => Function::new_native_with_env(store, env.clone(), _import_u64_async),
@@ -1220,6 +1240,19 @@ pub fn _import_string(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
     let arg = import_from_guest::<String>(env, arg);
     let result = super::import_string(arg);
     export_to_guest(env, &result)
+}
+
+pub fn _import_string_async(env: &RuntimeInstanceData) -> FatPtr {
+    let result = super::import_string_async();
+    let env = env.clone();
+    let async_ptr = create_future_value(&env);
+    let handle = tokio::runtime::Handle::current();
+    handle.spawn(async move {
+        let result = result.await;
+        let result_ptr = export_to_guest(&env, &result);
+        env.guest_resolve_async_value(async_ptr, result_ptr);
+    });
+    async_ptr
 }
 
 pub fn _import_struct_with_options(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
