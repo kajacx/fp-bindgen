@@ -1079,6 +1079,10 @@ fn create_import_object(store: &Store, env: &RuntimeInstanceData) -> wasmer::Exp
         Function::new_native_with_env(store, env.clone(), _import_timestamp),
     );
     namespace.insert(
+        "__fp_gen_import_u64_async",
+        Function::new_native_with_env(store, env.clone(), _import_u64_async),
+    );
+    namespace.insert(
         "__fp_gen_import_void_function",
         Function::new_native_with_env(store, env.clone(), _import_void_function),
     );
@@ -1364,6 +1368,19 @@ pub fn _import_timestamp(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
     let arg = import_from_guest::<MyDateTime>(env, arg);
     let result = super::import_timestamp(arg);
     export_to_guest(env, &result)
+}
+
+pub fn _import_u64_async(env: &RuntimeInstanceData) -> FatPtr {
+    let result = super::import_u64_async();
+    let env = env.clone();
+    let async_ptr = create_future_value(&env);
+    let handle = tokio::runtime::Handle::current();
+    handle.spawn(async move {
+        let result = result.await;
+        let result_ptr = export_to_guest(&env, &result);
+        env.guest_resolve_async_value(async_ptr, result_ptr);
+    });
+    async_ptr
 }
 
 pub fn _import_void_function(env: &RuntimeInstanceData) {

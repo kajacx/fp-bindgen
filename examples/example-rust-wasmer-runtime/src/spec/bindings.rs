@@ -956,6 +956,7 @@ fn create_import_object(store: &Store, env: &RuntimeInstanceData) -> ImportObjec
             "__fp_gen_import_string" => Function::new_native_with_env(store, env.clone(), _import_string),
             "__fp_gen_import_struct_with_options" => Function::new_native_with_env(store, env.clone(), _import_struct_with_options),
             "__fp_gen_import_timestamp" => Function::new_native_with_env(store, env.clone(), _import_timestamp),
+            "__fp_gen_import_u64_async" => Function::new_native_with_env(store, env.clone(), _import_u64_async),
             "__fp_gen_import_void_function" => Function::new_native_with_env(store, env.clone(), _import_void_function),
             "__fp_gen_import_void_function_empty_result" => Function::new_native_with_env(store, env.clone(), _import_void_function_empty_result),
             "__fp_gen_import_void_function_empty_return" => Function::new_native_with_env(store, env.clone(), _import_void_function_empty_return),
@@ -1231,6 +1232,19 @@ pub fn _import_timestamp(env: &RuntimeInstanceData, arg: FatPtr) -> FatPtr {
     let arg = import_from_guest::<MyDateTime>(env, arg);
     let result = super::import_timestamp(arg);
     export_to_guest(env, &result)
+}
+
+pub fn _import_u64_async(env: &RuntimeInstanceData) -> FatPtr {
+    let result = super::import_u64_async();
+    let env = env.clone();
+    let async_ptr = create_future_value(&env);
+    let handle = tokio::runtime::Handle::current();
+    handle.spawn(async move {
+        let result = result.await;
+        let result_ptr = export_to_guest(&env, &result);
+        env.guest_resolve_async_value(async_ptr, result_ptr);
+    });
+    async_ptr
 }
 
 pub fn _import_void_function(env: &RuntimeInstanceData) {

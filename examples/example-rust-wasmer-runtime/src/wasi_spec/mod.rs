@@ -139,6 +139,14 @@ fn import_struct_with_options(arg: StructWithOptions) {
     todo!()
 }
 
+// Doesn't return u64????
+async fn import_u64_async() {
+
+}
+async fn import_u32_async() -> u32 {
+    32
+}
+
 fn log(msg: String) {
     println!("Provider log: {}", msg);
 }

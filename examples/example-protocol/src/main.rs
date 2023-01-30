@@ -115,6 +115,9 @@ fp_import! {
     fn import_serde_adjacently_tagged(arg: SerdeAdjacentlyTagged) -> SerdeAdjacentlyTagged;
     fn import_serde_untagged(arg: SerdeUntagged) -> SerdeUntagged;
 
+    async fn import_u64_async() -> u64;
+    //async fn import_u32_async() -> u32; Doesn't work?
+
     /// Logs a message to the (development) console.
     fn log(message: String);
 }
