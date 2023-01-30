@@ -116,7 +116,7 @@ fp_import! {
     fn import_serde_untagged(arg: SerdeUntagged) -> SerdeUntagged;
 
     async fn import_u64_async() -> u64;
-    //async fn import_u32_async() -> u32; Doesn't work?
+    //async fn import_u32_async() -> u32; // Doesn't work?
     async fn import_string_async() -> String;
 
     /// Logs a message to the (development) console.

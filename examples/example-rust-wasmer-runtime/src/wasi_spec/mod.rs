@@ -139,7 +139,8 @@ fn import_struct_with_options(arg: StructWithOptions) {
     todo!()
 }
 
-// Doesn't have to return u64????
+// This can return anything, and everything compiles.
+// But if it isn't u8, u16, u32 or u64, the code "runs forever" at runtime.
 async fn import_u64_async() -> u64 {
     64
 }

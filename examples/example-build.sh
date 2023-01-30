@@ -9,6 +9,6 @@ cp example-protocol/bindings/rust-wasmer-runtime/bindings.rs example-rust-wasmer
 cp example-protocol/bindings/rust-wasmer-runtime/types.rs example-rust-wasmer-runtime/src/spec/types.rs && \
 cp example-protocol/bindings/rust-wasmer-wasi-runtime/bindings.rs example-rust-wasmer-runtime/src/wasi_spec/bindings.rs && \
 cp example-protocol/bindings/rust-wasmer-wasi-runtime/types.rs example-rust-wasmer-runtime/src/wasi_spec/types.rs && \
-echo "Files copied, running rntime test..." && \
+echo "Files copied, running runtime test..." && \
 cd example-rust-wasmer-runtime && cargo test && \
 echo "All done."
