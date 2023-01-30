@@ -140,8 +140,8 @@ fn import_struct_with_options(arg: StructWithOptions) {
 }
 
 // Doesn't return u64????
-async fn import_u64_async() {
-
+async fn import_u64_async() -> i16 {
+    16
 }
 async fn import_u32_async() -> u32 {
     32
