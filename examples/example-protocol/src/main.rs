@@ -266,13 +266,13 @@ fn main() {
                 .with_raw_export_wrappers(),
         ),
     ] {
-        let output_path = format!("bindings/{}", bindings_type);
+        let output_path = format!("bindings/{bindings_type}");
 
         fp_bindgen!(BindingConfig {
             bindings_type,
             path: &output_path,
         });
-        println!("Generated bindings written to `{}/`.", output_path);
+        println!("Generated bindings written to `{output_path}/`.");
     }
 }
 
@@ -393,8 +393,8 @@ mod tests {
         let actual = std::fs::read_to_string(path_of_actual).expect("Cannot read `actual` file");
         let expected_code = String::from_utf8_lossy(expected_bytes);
 
-        let actual_lines = actual.split('\n').collect::<Vec<_>>();
-        let expected_lines = expected_code.split('\n').collect::<Vec<_>>();
+        let actual_lines = actual.lines().collect::<Vec<_>>();
+        let expected_lines = expected_code.lines().collect::<Vec<_>>();
         pretty_assertions::assert_eq!(actual_lines, expected_lines);
     }
 }
