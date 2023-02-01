@@ -143,8 +143,8 @@ async fn import_string_async() -> String {
     "Imported string".to_owned()
 }
 
-async fn import_u64_async() -> u64 {
-    64
+async fn import_u64_async() -> f32 {
+    64.0
 }
 
 fn log(msg: String) {
