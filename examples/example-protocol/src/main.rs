@@ -203,6 +203,8 @@ fp_export! {
 
     // async fn export_i32_async() -> i32;
 
+    // async fn export_u64_async() -> u64;
+
     /// Called on the plugin to give it a chance to initialize.
     fn init();
 
