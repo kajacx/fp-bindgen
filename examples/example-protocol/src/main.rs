@@ -117,6 +117,8 @@ fp_import! {
 
     async fn import_string_async() -> String;
 
+    // async fn import_i32_async() -> i32;
+
     /// Logs a message to the (development) console.
     fn log(message: String);
 }
@@ -198,6 +200,8 @@ fp_export! {
     fn export_serde_untagged(arg: SerdeUntagged) -> SerdeUntagged;
 
     async fn export_string_async() -> String;
+
+    // async fn export_i32_async() -> i32;
 
     /// Called on the plugin to give it a chance to initialize.
     fn init();
