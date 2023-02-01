@@ -21,7 +21,6 @@ fp_import! {
     // See `types/aliases.rs` for more info.
     type Body = ByteBuf;
     type FloatingPoint = Point<f64>;
-    type HttpResult = Result<Response, RequestError>;
     type Int64 = u64;
 
     // Types that are not referenced by any of the protocol functions (either
@@ -116,16 +115,8 @@ fp_import! {
     fn import_serde_adjacently_tagged(arg: SerdeAdjacentlyTagged) -> SerdeAdjacentlyTagged;
     fn import_serde_untagged(arg: SerdeUntagged) -> SerdeUntagged;
 
-    // Async function:
-    async fn import_fp_struct(arg1: FpPropertyRenaming, arg2: u64) -> FpPropertyRenaming;
-
     /// Logs a message to the (development) console.
     fn log(message: String);
-
-    /// Example how a runtime could expose a `Fetch`-like function to plugins.
-    ///
-    /// See `types/http.rs` for more info.
-    async fn make_http_request(request: Request) -> HttpResult;
 }
 
 fp_export! {
@@ -203,12 +194,6 @@ fp_export! {
     fn export_serde_internally_tagged(arg: SerdeInternallyTagged) -> SerdeInternallyTagged;
     fn export_serde_adjacently_tagged(arg: SerdeAdjacentlyTagged) -> SerdeAdjacentlyTagged;
     fn export_serde_untagged(arg: SerdeUntagged) -> SerdeUntagged;
-
-    // Async function:
-    async fn export_async_struct(arg1: FpPropertyRenaming, arg2: u64) -> FpPropertyRenaming;
-
-    /// Example how plugin could expose async data-fetching capabilities.
-    async fn fetch_data(r#type: String) -> Result<String, String>;
 
     /// Called on the plugin to give it a chance to initialize.
     fn init();

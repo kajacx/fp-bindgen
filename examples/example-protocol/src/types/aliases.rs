@@ -1,7 +1,5 @@
 use serde_bytes::ByteBuf;
 
-use super::{RequestError, Response};
-
 // Aliases are supported, but in order for them to appear correctly in the
 // generated bindings, they need to be repeated in either the `fp_import!` or
 // the `fp_export!` bindings.
@@ -9,8 +7,6 @@ use super::{RequestError, Response};
 // This is unfortunately necessary because aliases cannot be annotated :(
 
 pub type Body = ByteBuf;
-
-pub type HttpResult = Result<Response, RequestError>;
 
 // This alias is annoying for the TypeScript bindings, because 64-bit numbers
 // could be encoded using numbers or the `BigInt` type depending on context.

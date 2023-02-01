@@ -142,11 +142,3 @@ fn import_struct_with_options(arg: StructWithOptions) {
 fn log(msg: String) {
     println!("Provider log: {}", msg);
 }
-
-async fn make_http_request(opts: Request) -> Result<Response, RequestError> {
-    Ok(Response {
-        body: ByteBuf::from(r#"status: "confirmed"#.to_string()),
-        headers: opts.headers,
-        status_code: 200,
-    })
-}
