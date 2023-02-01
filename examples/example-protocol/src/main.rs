@@ -121,6 +121,8 @@ fp_import! {
 
     async fn import_u64_async() -> u64;
 
+    async fn import_new_i32_async() -> NewI32;
+
     /// Logs a message to the (development) console.
     fn log(message: String);
 }
@@ -206,6 +208,8 @@ fp_export! {
     // async fn export_i32_async() -> i32;
 
     // async fn export_u64_async() -> u64;
+
+    async fn export_new_i32_async() -> NewI32;
 
     /// Called on the plugin to give it a chance to initialize.
     fn init();

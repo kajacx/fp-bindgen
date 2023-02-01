@@ -254,6 +254,11 @@ async fn async_import_and_export() -> Result<()> {
         "Imported string and exported: 64"
     );
 
+    assert_eq!(
+        rt.export_new_i32_async().await?.0,
+        15
+    );
+
     Ok(())
 }
 

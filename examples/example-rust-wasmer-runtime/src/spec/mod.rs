@@ -147,6 +147,10 @@ async fn import_u64_async() -> u64 {
     64
 }
 
+async fn import_new_i32_async() -> NewI32 {
+    NewI32(10)
+}
+
 fn log(msg: String) {
     println!("Provider log: {}", msg);
 }

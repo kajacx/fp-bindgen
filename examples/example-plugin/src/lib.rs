@@ -352,6 +352,12 @@ async fn export_string_async() -> String {
 }
 
 #[fp_export_impl(example_bindings)]
+async fn export_new_i32_async() -> NewI32 {
+    NewI32(import_new_i32_async().await.0 + 5)
+}
+
+
+#[fp_export_impl(example_bindings)]
 fn init() {
     init_panic_hook();
     tracing_subscriber::init();
