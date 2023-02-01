@@ -119,6 +119,8 @@ fp_import! {
 
     // async fn import_i32_async() -> i32;
 
+    async fn import_u64_async() -> u64;
+
     /// Logs a message to the (development) console.
     fn log(message: String);
 }

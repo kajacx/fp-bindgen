@@ -251,7 +251,7 @@ async fn async_import_and_export() -> Result<()> {
 
     assert_eq!(
         rt.export_string_async().await?,
-        "Imported string and exported"
+        "Imported string and exported: 64"
     );
 
     Ok(())
