@@ -139,6 +139,10 @@ fn import_struct_with_options(arg: StructWithOptions) {
     todo!()
 }
 
+async fn import_string_async() -> String {
+    "Imported string".to_owned()
+}
+
 fn log(msg: String) {
     println!("Provider log: {}", msg);
 }

@@ -115,6 +115,8 @@ fp_import! {
     fn import_serde_adjacently_tagged(arg: SerdeAdjacentlyTagged) -> SerdeAdjacentlyTagged;
     fn import_serde_untagged(arg: SerdeUntagged) -> SerdeUntagged;
 
+    async fn import_string_async() -> String;
+
     /// Logs a message to the (development) console.
     fn log(message: String);
 }
@@ -194,6 +196,8 @@ fp_export! {
     fn export_serde_internally_tagged(arg: SerdeInternallyTagged) -> SerdeInternallyTagged;
     fn export_serde_adjacently_tagged(arg: SerdeAdjacentlyTagged) -> SerdeAdjacentlyTagged;
     fn export_serde_untagged(arg: SerdeUntagged) -> SerdeUntagged;
+
+    async fn export_string_async() -> String;
 
     /// Called on the plugin to give it a chance to initialize.
     fn init();

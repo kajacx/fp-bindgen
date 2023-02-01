@@ -245,6 +245,18 @@ fn bytes() -> Result<()> {
     Ok(())
 }
 
+#[tokio::test]
+async fn async_import_and_export() -> Result<()> {
+    let rt = new_runtime()?;
+
+    assert_eq!(
+        rt.export_string_async().await?,
+        "Imported string and exported"
+    );
+
+    Ok(())
+}
+
 fn new_runtime() -> Result<Runtime> {
     let rt = Runtime::new(WASM_BYTES)?;
     rt.init()?;
