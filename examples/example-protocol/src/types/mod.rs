@@ -1,4 +1,6 @@
 mod aliases;
+use std::fmt::Display;
+
 pub use aliases::*;
 
 mod flattening;
@@ -29,3 +31,12 @@ pub use use_statements::*;
 
 #[derive(Serializable, Serialize, Deserialize)]
 pub struct NewI32(i32);
+
+#[derive(Serializable, Debug)]
+pub struct NewF32(f32);
+
+impl Display for NewF32 {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.0.fmt(f)
+    }
+}

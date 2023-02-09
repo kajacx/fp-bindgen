@@ -48,9 +48,9 @@ fn import_primitive_u64(arg: u64) -> u64 {
     todo!()
 }
 
-fn import_add_two_f32(arg: f32) -> f32 {
+fn import_add_two_f32(arg: NewF32) -> NewF32 {
     println!("Getting {arg} in host");
-    let result = arg + 2.0;
+    let result = NewF32(arg.0 + 2.0);
     println!("Returning {result} in host");
     result
 }
