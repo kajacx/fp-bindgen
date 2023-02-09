@@ -95,7 +95,10 @@ fn export_primitive_u64(arg: u64) -> u64 {
 
 #[fp_export_impl(example_bindings)]
 fn export_add_five_f32(arg: f32) -> f32 {
-    import_add_two_f32(arg) + 3.0
+    log(format!("Getting {arg} in plugin"));
+    let result = import_add_two_f32(arg) + 3.0;
+    log(format!("Returning {result} in plugin"));
+    result
 }
 
 #[fp_export_impl(example_bindings)]
