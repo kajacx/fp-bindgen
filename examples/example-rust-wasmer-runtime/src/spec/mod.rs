@@ -48,6 +48,10 @@ fn import_primitive_u64(arg: u64) -> u64 {
     todo!()
 }
 
+fn import_add_two_f32(arg: f32) -> f32 {
+    arg + 2.0
+}
+
 fn import_array_u8(arg: [u8; 3]) -> [u8; 3] {
     todo!()
 }

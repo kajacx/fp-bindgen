@@ -94,6 +94,11 @@ fn export_primitive_u64(arg: u64) -> u64 {
 }
 
 #[fp_export_impl(example_bindings)]
+fn export_add_five_f32(arg: f32) -> f32 {
+    import_add_two_f32(arg) + 3.0
+}
+
+#[fp_export_impl(example_bindings)]
 fn export_array_u8(arg: [u8; 3]) -> [u8; 3] {
     assert_eq!(arg, [1u8, 2u8, 3u8]);
     [1u8, 2u8, 3u8]

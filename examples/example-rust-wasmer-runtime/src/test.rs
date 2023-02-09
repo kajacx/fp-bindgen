@@ -35,6 +35,8 @@ fn primitives() -> Result<()> {
     assert_eq!(rt.export_primitive_i32(-32)?, -32);
     assert_eq!(rt.export_primitive_i64(-64)?, -64);
 
+    assert_eq!(rt.export_add_five_f32(8.0)?, 13.0);
+
     assert_eq!(
         rt.export_multiple_primitives(-8, "Hello, 🇳🇱!".to_string())?,
         -64

@@ -59,6 +59,8 @@ fp_import! {
     fn import_primitive_u32(arg: u32) -> u32;
     fn import_primitive_u64(arg: u64) -> u64;
 
+    fn import_add_two_f32(arg: f32) -> f32;
+
     // Passing arrays:
     fn import_array_u8(arg: [u8; 3]) -> [u8; 3];
     fn import_array_u16(arg: [u16; 3]) -> [u16; 3];
@@ -147,6 +149,8 @@ fp_export! {
     fn export_primitive_u16(arg: u16) -> u16;
     fn export_primitive_u32(arg: u32) -> u32;
     fn export_primitive_u64(arg: u64) -> u64;
+
+    fn export_add_five_f32(arg: f32) -> f32;
 
     // Passing arrays:
     fn export_array_u8(arg: [u8; 3]) -> [u8; 3];
