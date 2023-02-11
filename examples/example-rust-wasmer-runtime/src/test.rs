@@ -23,17 +23,17 @@ const WASM_BYTES: &'static [u8] =
 fn primitives() -> Result<()> {
     let rt = new_runtime()?;
 
-    assert_eq!(rt.export_primitive_bool(true)?, true);
-    assert_eq!(rt.export_primitive_bool(false)?, false);
+    assert_eq!(rt.export_primitive_bool(true)?, false);
+    assert_eq!(rt.export_primitive_bool(false)?, true);
 
-    assert_eq!(rt.export_primitive_u8(8)?, 8);
-    assert_eq!(rt.export_primitive_u16(16)?, 16);
-    assert_eq!(rt.export_primitive_u32(32)?, 32);
-    assert_eq!(rt.export_primitive_u64(64)?, 64);
-    assert_eq!(rt.export_primitive_i8(-8)?, -8);
-    assert_eq!(rt.export_primitive_i16(-16)?, -16);
-    assert_eq!(rt.export_primitive_i32(-32)?, -32);
-    assert_eq!(rt.export_primitive_i64(-64)?, -64);
+    assert_eq!(rt.export_primitive_u8(10)?, 13);
+    assert_eq!(rt.export_primitive_u16(20)?, 23);
+    assert_eq!(rt.export_primitive_u32(30)?, 33);
+    assert_eq!(rt.export_primitive_u64(40)?, 43);
+    assert_eq!(rt.export_primitive_i8(-10)?, -7);
+    assert_eq!(rt.export_primitive_i16(-20)?, -17);
+    assert_eq!(rt.export_primitive_i32(-30)?, -27);
+    assert_eq!(rt.export_primitive_i64(-40)?, -37);
 
     assert_eq!(rt.export_add_five_f32(8.0)?, 13.0);
 
@@ -42,11 +42,9 @@ fn primitives() -> Result<()> {
         -64
     );
 
-    assert_eq!(rt.export_primitive_f32(3.1415926535)?, 3.1415926535);
-    assert_eq!(
-        rt.export_primitive_f64(2.718281828459f64)?,
-        2.718281828459f64
-    );
+    assert_eq!(rt.export_primitive_f32(3.5)?, 6.5);
+    assert_eq!(rt.export_primitive_f64(10.5)?, 13.5);
+
     Ok(())
 }
 
