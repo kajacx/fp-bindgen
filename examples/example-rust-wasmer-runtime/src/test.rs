@@ -19,6 +19,85 @@ const WASM_BYTES: &'static [u8] =
 const WASM_BYTES: &'static [u8] =
     include_bytes!("../../example-plugin/target/wasm32-wasi/debug/example_plugin.wasm");
 
+
+#[test]
+fn primitive_bool() -> Result<()> {
+    let rt = new_runtime()?;
+    assert_eq!(rt.export_primitive_bool(true)?, false);
+    assert_eq!(rt.export_primitive_bool(false)?, true);
+    Ok(())
+}
+
+#[test]
+fn primitive_u8() -> Result<()> {
+    let rt = new_runtime()?;
+    assert_eq!(rt.export_primitive_u8(10)?, 13);
+    Ok(())
+}
+
+#[test]
+fn primitive_u16() -> Result<()> {
+    let rt = new_runtime()?;
+    assert_eq!(rt.export_primitive_u16(20)?, 23);
+    Ok(())
+}
+
+#[test]
+fn primitive_u32() -> Result<()> {
+    let rt = new_runtime()?;
+    assert_eq!(rt.export_primitive_u32(30)?, 33);
+    Ok(())
+}
+
+#[test]
+fn primitive_u64() -> Result<()> {
+    let rt = new_runtime()?;
+    assert_eq!(rt.export_primitive_u64(40)?, 43);
+    Ok(())
+}
+
+#[test]
+fn primitive_i8() -> Result<()> {
+    let rt = new_runtime()?;
+    assert_eq!(rt.export_primitive_i8(-10)?, -7);
+    Ok(())
+}
+
+#[test]
+fn primitive_i16() -> Result<()> {
+    let rt = new_runtime()?;
+    assert_eq!(rt.export_primitive_i16(-20)?, -17);
+    Ok(())
+}
+
+#[test]
+fn primitive_i32() -> Result<()> {
+    let rt = new_runtime()?;
+    assert_eq!(rt.export_primitive_i32(-30)?, -27);
+    Ok(())
+}
+
+#[test]
+fn primitive_i64() -> Result<()> {
+    let rt = new_runtime()?;
+    assert_eq!(rt.export_primitive_i64(-40)?, -37);
+    Ok(())
+}
+
+#[test]
+fn primitive_f32() -> Result<()> {
+    let rt = new_runtime()?;
+    assert_eq!(rt.export_primitive_f32(3.5)?, 6.5);
+    Ok(())
+}
+
+#[test]
+fn primitive_f64() -> Result<()> {
+    let rt = new_runtime()?;
+    assert_eq!(rt.export_primitive_f64(10.5)?, 13.5);
+    Ok(())
+}
+
 #[test]
 fn primitives() -> Result<()> {
     let rt = new_runtime()?;
