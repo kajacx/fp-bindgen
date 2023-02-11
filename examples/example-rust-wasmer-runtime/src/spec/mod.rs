@@ -51,6 +51,9 @@ fn import_primitive_u64(arg: u64) -> u64 {
 fn import_add_two_f32(arg: f32) -> f32 {
     arg + 2.0
 }
+fn import_multi_argument_fs(arg1: u8, arg2: f32, arg3: i16, arg4: f64) -> u64 {
+    arg1 as u64 + arg2 as u64 + arg3 as u64 + arg4 as u64
+}
 
 fn import_array_u8(arg: [u8; 3]) -> [u8; 3] {
     todo!()

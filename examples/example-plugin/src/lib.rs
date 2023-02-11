@@ -87,6 +87,11 @@ fn export_add_five_f32(arg: f32) -> f32 {
 }
 
 #[fp_export_impl(example_bindings)]
+fn export_multi_argument_fn() -> u64 {
+    import_multi_argument_fs(10, 100.0, 1000, 10000.0)
+}
+
+#[fp_export_impl(example_bindings)]
 fn export_array_u8(arg: [u8; 3]) -> [u8; 3] {
     assert_eq!(arg, [1u8, 2u8, 3u8]);
     [1u8, 2u8, 3u8]

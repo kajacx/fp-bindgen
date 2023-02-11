@@ -99,6 +99,13 @@ fn primitive_f64() -> Result<()> {
 }
 
 #[test]
+fn multi_argument_fn() -> Result<()> {
+    let rt = new_runtime()?;
+    assert_eq!(rt.export_multi_argument_fn()?, 11110);
+    Ok(())
+}
+
+#[test]
 fn primitives() -> Result<()> {
     let rt = new_runtime()?;
 
