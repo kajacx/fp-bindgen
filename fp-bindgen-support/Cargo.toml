@@ -22,11 +22,13 @@ serde_bytes = "0.11"
 thiserror = { version = "1.0.26", optional = true }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-wasmer = { version = "3", optional = true }
+#wasmer = { version = "3", optional = true }
+wasmer = { path = "../../wasmer/lib/api", optional = true }
 wasmer-compiler-singlepass = { version = "3", optional = true }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-wasmer = { version = "3", optional = true, default-features = false, features = ["js-default"]}
+#wasmer = { version = "3", optional = true, default-features = false, features = ["js-default"]}
+wasmer = { path = "../../wasmer/lib/api", optional = true, default-features = false, features = ["js-default"]}
 
 [features]
 default = []
