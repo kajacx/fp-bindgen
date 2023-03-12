@@ -27,9 +27,7 @@ fn generate_create_import_object_func(import_functions: &FunctionList) -> String
         .iter()
         .map(|function| {
             let name = &function.name;
-            format!(
-                "\"__fp_gen_{name}\" => Function::new_typed_with_env(store, env, _{name}),"
-            )
+            format!("\"__fp_gen_{name}\" => Function::new_typed_with_env(store, env, _{name}),")
         })
         .collect::<Vec<_>>()
         .join("\n            ");
@@ -357,9 +355,15 @@ impl Runtime {{
         Ok(Self {{ store: RefCell::new(store), module }})
     }}
 
+    #[cfg(not(target_arch = "wasm32"))]
     fn default_store() -> wasmer::Store {{
         let compiler = wasmer::Cranelift::default();
         Store::new(compiler)
+    }}
+
+    #[cfg(target_arch = "wasm32")]
+    fn default_store() -> wasmer::Store {{
+        Store::new(wasmer::Engine::default())
     }}
 
     {exports}
