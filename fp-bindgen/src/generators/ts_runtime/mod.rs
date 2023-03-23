@@ -312,14 +312,15 @@ fn format_raw_function_declarations(
                 .collect::<Vec<_>>()
                 .join(", ");
             let return_type = if function.is_async {
-                format!(
-                    " => Promise<{}>",
-                    function
-                        .return_type
-                        .as_ref()
-                        .map(format_raw_type)
-                        .unwrap_or("void")
-                )
+                // format!(
+                //     " => Promise<{}>",
+                //     function
+                //         .return_type
+                //         .as_ref()
+                //         .map(format_raw_type)
+                //         .unwrap_or("void")
+                // )
+                " => Promise<Uint8Array>".to_owned()
             } else {
                 format!(
                     " => {}",
@@ -362,10 +363,14 @@ fn format_import_wrappers(import_functions: &FunctionList, types: &TypeMap) -> V
                 })
                 .collect::<Vec<_>>()
                 .join(", ");
-            let return_type = match &function.return_type.as_ref().map(|ty| ty.as_primitive()) {
-                None => "".to_owned(),
-                Some(Some(primitive)) => format!(": {}", format_plain_primitive(*primitive)),
-                Some(_) => ": FatPtr".to_owned(),
+            let return_type = if function.is_async {
+                ": FatPtr".to_owned()
+            } else {
+                match &function.return_type.as_ref().map(|ty| ty.as_primitive()) {
+                    None => "".to_owned(),
+                    Some(Some(primitive)) => format!(": {}", format_plain_primitive(*primitive)),
+                    Some(_) => ": FatPtr".to_owned(),
+                }
             };
             let import_args = function
                 .args
