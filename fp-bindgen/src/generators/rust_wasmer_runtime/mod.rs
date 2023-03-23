@@ -46,16 +46,16 @@ fn generate_create_import_object_func(import_functions: &FunctionList) -> String
     )
 }
 
-pub(crate) fn format_raw_ident(ty: &TypeIdent, types: &TypeMap) -> String {
-    if ty.is_primitive() {
+pub(crate) fn format_raw_ident(ty: &TypeIdent, types: &TypeMap, force_vec: bool) -> String {
+    if !force_vec && ty.is_primitive() {
         format_ident(ty, types)
     } else {
         "Vec<u8>".to_owned()
     }
 }
 
-pub(crate) fn format_wasm_ident(ty: &TypeIdent) -> String {
-    if ty.is_primitive() {
+pub(crate) fn format_wasm_ident(ty: &TypeIdent, force_fatptr: bool) -> String {
+    if !force_fatptr && ty.is_primitive() {
         format!("<{} as WasmAbi>::AbiType", ty.name)
     } else {
         "FatPtr".to_owned()
@@ -63,7 +63,7 @@ pub(crate) fn format_wasm_ident(ty: &TypeIdent) -> String {
 }
 
 #[allow(clippy::type_complexity)]
-pub(crate) fn generate_import_function_variables<'a>(
+pub(crate) fn generate_export_function_variables<'a>(
     function: &'a Function,
     types: &TypeMap,
 ) -> (
@@ -97,13 +97,13 @@ pub(crate) fn generate_import_function_variables<'a>(
     let raw_args = function
         .args
         .iter()
-        .map(|FunctionArg { name, ty }| format!(", {name}: {}", format_raw_ident(ty, types)))
+        .map(|FunctionArg { name, ty }| format!(", {name}: {}", format_raw_ident(ty, types, false)))
         .collect::<Vec<_>>()
         .join("");
     let wasm_args = function
         .args
         .iter()
-        .map(|arg| format_wasm_ident(&arg.ty))
+        .map(|arg| format_wasm_ident(&arg.ty, false))
         .collect::<Vec<_>>();
     let wasm_args = if wasm_args.len() == 1 {
         let mut wasm_args = wasm_args;
@@ -117,11 +117,11 @@ pub(crate) fn generate_import_function_variables<'a>(
         None => "()".to_owned(),
     };
     let raw_return_type = match &function.return_type {
-        Some(ty) => format_raw_ident(ty, types),
+        Some(ty) => format_raw_ident(ty, types, function.is_async),
         None => "()".to_owned(),
     };
     let wasm_return_type = match &function.return_type {
-        Some(ty) => format_wasm_ident(ty),
+        Some(ty) => format_wasm_ident(ty, function.is_async),
         None => "()".to_owned(),
     };
 
@@ -196,7 +196,7 @@ pub(crate) fn generate_import_function_variables<'a>(
     )
 }
 
-fn format_import_function(function: &Function, types: &TypeMap) -> String {
+fn format_export_function(function: &Function, types: &TypeMap) -> String {
     let (
         doc,
         modifiers,
@@ -213,7 +213,7 @@ fn format_import_function(function: &Function, types: &TypeMap) -> String {
         wasm_arg_names,
         raw_return_wrapper,
         return_wrapper,
-    ) = generate_import_function_variables(function, types);
+    ) = generate_export_function_variables(function, types);
 
     format!(
         r#"{doc}pub {modifiers}fn {name}(&self{args}) -> Result<{return_type}, InvocationError> {{
@@ -241,20 +241,21 @@ pub(crate) fn format_import_arg(name: &str, ty: &TypeIdent, types: &TypeMap) -> 
     }
 }
 
-pub(crate) fn format_export_function(function: &Function, types: &TypeMap) -> String {
+pub(crate) fn format_import_function(function: &Function, types: &TypeMap) -> String {
     let name = &function.name;
     let wasm_args = function
         .args
         .iter()
-        .map(|FunctionArg { name, ty }| format!(", {name}: {}", format_wasm_ident(ty)))
+        .map(|FunctionArg { name, ty }| format!(", {name}: {}", format_wasm_ident(ty, false)))
         .collect::<Vec<_>>()
         .join("");
 
+    // TODO: HANG ON. this handles async correctly. WHAT IS GOING ON?
     let wrapper_return_type = if function.is_async {
         " -> FatPtr".to_owned()
     } else {
         match &function.return_type {
-            Some(ty) => format!(" -> {}", format_wasm_ident(ty)),
+            Some(ty) => format!(" -> {}", format_wasm_ident(ty, function.is_async)),
             None => "".to_owned(),
         }
     };
@@ -308,12 +309,12 @@ fn generate_function_bindings(
 ) {
     let imports = import_functions
         .iter()
-        .map(|function| format_export_function(function, types))
+        .map(|function| format_import_function(function, types))
         .collect::<Vec<_>>()
         .join("\n\n");
     let exports = export_functions
         .iter()
-        .map(|function| format_import_function(function, types))
+        .map(|function| format_export_function(function, types))
         .collect::<Vec<_>>()
         .join("\n\n");
     let new_func = r#"pub fn new(wasm_module: impl AsRef<[u8]>) -> Result<Self, RuntimeError> {
